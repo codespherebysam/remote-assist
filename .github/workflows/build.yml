@@ -81,7 +81,7 @@ jobs:
           mkdir -p app/src/main/res/xml
           cat > app/src/main/res/xml/control_config.xml <<'EOF_FILE'
           <accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
-              android:canPerformGestures="true" android:accessibilityEventTypes="typeNone"
+              android:canPerformGestures="true" android:accessibilityEventTypes="typeWindowStateChanged"
               android:description="@string/app_name" android:accessibilityFeedbackType="feedbackGeneric"/>
           EOF_FILE
           mkdir -p app/src/main/res/values
@@ -266,7 +266,7 @@ jobs:
               val stop = PendingIntent.getService(this, 0, Intent(this, ShareService::class.java).putExtra("stop", true), PendingIntent.FLAG_IMMUTABLE)
               val n = Notification.Builder(this, "share").setSmallIcon(android.R.drawable.ic_menu_view)
                 .setContentTitle("Your screen is being shared").setOngoing(true)
-                .addAction(Notification.Action.Builder(null, "Stop sharing", stop).build()).build()
+                .addAction(Notification.Action.Builder(android.graphics.drawable.Icon.createWithResource(this, android.R.drawable.ic_media_pause), "Stop sharing", stop).build()).build()
               startForeground(1, n, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION)
               Net.listeners.add(listener)
               rtc = Rtc(this, peer).also { r ->
